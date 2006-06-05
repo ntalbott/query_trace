@@ -4,11 +4,12 @@ module QueryTrace
     klass.class_eval do
       alias_method :log_info_without_trace, :log_info
       alias_method :log_info, :log_info_with_trace
-      
+    end
+    klass.class_eval %(
       def row_even
         @@row_even
       end
-    end
+    )
   end
   
   def log_info_with_trace(sql, name, runtime)
