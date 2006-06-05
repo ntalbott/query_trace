@@ -1,13 +1,14 @@
 module QueryTrace
-  def self.included(klass)
-    klass.class_eval %(
+  def self.append_features(klass)
+    super
+    klass.class_eval do
       alias_method :log_info_without_trace, :log_info
       alias_method :log_info, :log_info_with_trace
       
       def row_even
         @@row_even
       end
-    )
+    end
   end
   
   def log_info_with_trace(sql, name, runtime)
