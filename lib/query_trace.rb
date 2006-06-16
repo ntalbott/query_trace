@@ -2,8 +2,10 @@ module QueryTrace
   def self.append_features(klass)
     super
     klass.class_eval do
-      alias_method :log_info_without_trace, :log_info
-      alias_method :log_info, :log_info_with_trace
+      unless method_defined?(:log_info_without_trace)
+        alias_method :log_info_without_trace, :log_info
+        alias_method :log_info, :log_info_with_trace
+      end
     end
     klass.class_eval %(
       def row_even
