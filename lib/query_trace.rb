@@ -41,6 +41,6 @@ module QueryTrace
   def clean_trace(trace)
     return trace unless defined?(RAILS_ROOT)
     
-    trace.select{|t| /#{Regexp.escape(RAILS_ROOT)}/ =~ t}.reject{|t| VENDOR_RAILS_REGEXP =~ t}.collect{|t| t.gsub(RAILS_ROOT + '/', '')}
+    trace.select{|t| /#{Regexp.escape(File.expand_path(RAILS_ROOT))}/ =~ t}.reject{|t| VENDOR_RAILS_REGEXP =~ t}.collect{|t| t.gsub(RAILS_ROOT + '/', '')}
   end
 end
