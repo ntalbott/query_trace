@@ -37,10 +37,9 @@ module QueryTrace
     end
   end
   
-  VENDOR_RAILS_REGEXP = %r(([\\/:])vendor\1rails\1)
   def clean_trace(trace)
-    return trace unless defined?(RAILS_ROOT)
-    
-    trace.select{|t| /#{Regexp.escape(File.expand_path(RAILS_ROOT))}/ =~ t}.reject{|t| VENDOR_RAILS_REGEXP =~ t}.collect{|t| t.gsub(RAILS_ROOT + '/', '')}
+    Rails.respond_to?(:backtrace_cleaner) ?
+      Rails.backtrace_cleaner.clean(trace) :
+      trace
   end
 end
